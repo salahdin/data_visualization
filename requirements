@@ -3,3 +3,4 @@ Python==3.5
 Bokeh
 Numpad
 Bootstrap
+django_tables2
