@@ -2,20 +2,31 @@ from django.shortcuts import render,render_to_response
 from bokeh.plotting import *
 from bokeh.embed import components
 from numpy import pi
+
+
 import pandas as pd
 
 def homepage(request):
     plot = figure(title='line graph', x_axis_label="idk", y_axis_label="sdf", plot_width=400, plot_height=400)
     plot.line([1,2,3,4,5,8], [1,2,3,4,5,-1], line_width=2)
     script, div = components(plot)
+    df = pd.read_csv("researchdata.csv")
+    df1 = df[['Sex:',"Age:"]]
+
     return render_to_response('base.html', {'script': script, 'div': div})
 
 def displayTable(request):
     path = r"C:\Users\salahdin\Desktop\data_visualization\ub_data_visualization\dashboard\researchdata.csv"
-    data = pd.read_csv(path)
-    data_html = data.to_html()
-    context = {'loaded_data': data_html}
-    return render(request, "dashboard/table.html", context)
+    df = pd.read_csv(path)
+    bins = [0, 2, 4, 13, 47, 110]
+    labels = ['Infant', 'Toddler', 'Kid', 'Teen', 'Adult']
+    df1 = df[['Sex:', 'Age:']]
+    df1['AgeGroup'] = pd.cut(df['Age:'], bins=bins, labels=labels, right=False)
+    df1 = df1.applymap(str)
+    p = figure(x_range=labels, plot_height=250, title="study age range")
+    p.vbar(x=df1['AgeGroup'], top=[5, 3, 4, 2, 4, 6], width=0.9)
+    script, div = components(p)
+    return render_to_response('base.html', {'script': script, 'div': div})
 
 def displayChart(request):
     # define starts/ends for wedges from percentages of a circle
@@ -28,3 +39,4 @@ def displayChart(request):
     p.wedge(x=0, y=0, radius=1, start_angle=starts, end_angle=ends, color=colors)
     script, div = components(p)
     return render_to_response('base.html', {'script': script, 'div': div})
+
