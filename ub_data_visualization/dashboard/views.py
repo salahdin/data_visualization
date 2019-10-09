@@ -18,13 +18,13 @@ def homepage(request):
 def displayTable(request):
     path = r"C:\Users\salahdin\Desktop\data_visualization\ub_data_visualization\dashboard\researchdata.csv"
     df = pd.read_csv(path)
-    bins = [0, 2, 4, 13, 47, 110]
+    bins = [0, 2, 4, 13, 20, 110]
     labels = ['Infant', 'Toddler', 'Kid', 'Teen', 'Adult']
     df1 = df[['Sex:', 'Age:']]
     df1['AgeGroup'] = pd.cut(df['Age:'], bins=bins, labels=labels, right=False)
     df1 = df1.applymap(str)
     p = figure(x_range=labels, plot_height=250, title="study age range")
-    p.vbar(x=df1['AgeGroup'], top=[5, 3, 4, 2, 4, 6], width=0.9)
+    p.vbar(x=df1['AgeGroup'], top=[1, 9], width=0.9)
     script, div = components(p)
     return render_to_response('base.html', {'script': script, 'div': div})
 
