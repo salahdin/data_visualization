@@ -6,14 +6,18 @@
  </head>
  <body>
     <center>
-        <form action="POST">
-            <label>Symptom</label>
-            <input name="searchBar" type="text" placeholder="field name...">
-            <input type="submit">
-        </form>
       <h1>example</h1>
      {{ div | safe }}
     </center>
+    <form action="{% url 'dashboard:search' %}" method="GET" style=padding-left:20px">
+        {% csrf_token %}
+        <textarea rows="2" cols="20" name="searchBar" > reason.. </textarea>
+        <button type="submit" class="btn btn-danger">Reject</button>
+    </form>
+    {{ message }}
+    {% for i in list%}
+        <p>{{i}}</p>
+    {% endfor %}
 </body>
     <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
     {{ script | safe }}

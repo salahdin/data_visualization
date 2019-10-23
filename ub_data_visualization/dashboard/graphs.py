@@ -28,6 +28,13 @@ def Hypertensionbarchart():
     script, div = components(p)
     return script, div
 
+def searchCol(col):
+    labels = ['No', 'Yes']
+    dfH = df[[col]]
+    p = figure(x_range=labels, plot_height=400, plot_width=700, title=col)
+    p.vbar(x=dfH[col], top=returnTop(col), width=0.4)
+    script, div = components(p)
+    return script, div
 
 def checkrepeating(colmnName):
     df = pd.read_csv(path)

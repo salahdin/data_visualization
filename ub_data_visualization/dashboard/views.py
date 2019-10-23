@@ -3,8 +3,10 @@ from bokeh.plotting import *
 from bokeh.embed import components
 from numpy import pi
 from .graphs import *
-
+from django.views.decorators.csrf import csrf_protect
 import pandas as pd
+from .graphs import *
+from django.http import HttpResponse
 
 def homepage(request):
     plot = figure(title='line graph', x_axis_label="idk", y_axis_label="sdf", plot_width=400, plot_height=400)
@@ -34,4 +36,23 @@ def displayChart(request):
     p.wedge(x=0, y=0, radius=1, start_angle=starts, end_angle=ends, color=colors)
     script, div = components(p)
     return render_to_response('base.html', {'script': script, 'div': div})
+
+@csrf_protect
+def searchColmn(request):
+    if request.method == 'GET':
+        # get reason from post data
+        df = pd.read_csv(path)
+        data = request.GET['searchBar']
+
+        matching = [s for s in list(df.columns) if data in s]
+
+        if len(matching) > 0:
+            script, div = searchCol(matching[0])
+            return render_to_response('base.html', {'script': script, 'div': div})
+
+        elif len(matching) == 0:
+            return render_to_response('base.html', {'message': "no data", "list":matching})
+
+    return render(request, 'base.html')
+
 
