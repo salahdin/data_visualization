@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <style>
+        table.row-clickable tbody tr td {
+        padding: 0;
+        }
+        table.row-clickable tbody tr td a {
+            display: block;
+            padding: 8px;
+        }
+        a.details {
+        text-decoration: none;
+        color: inherit;
+         }
+    </style>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">gender</th>
+                <th scope="col">age</th>
+                <th scope="col">location</th>
+                <th scope="col">smoker</th>
+                <th scope="col">obese</th>
+                <th scope="col">hearattack</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for i in participants %}
+                <td class="details">{{i.gender}}</td>
+                <td class="details">{{i.age}}</td>
+                <td class="details">{{i.location}}</td>
+                <td class="details">{{i.smoker}}</td>
+                <td class="details">{{i.obese}}</td>
+                </tr>
+             {% endfor %}
+        </tbody>
+
+    </table>
+
+
+    {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+{%endblock content%}
