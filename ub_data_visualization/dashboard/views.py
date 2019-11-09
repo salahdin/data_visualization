@@ -36,6 +36,7 @@ def searchColmn(request):
         # get reason from post data
         df = pd.read_csv(path)
         data = request.GET['searchBar']
+        data = data.title()
         matching = [s for s in list(df.columns) if data in s]
         if len(matching) > 0:
             script, div = searchCol(matching[0])
@@ -58,7 +59,6 @@ def read_and_create_request(request):
                 obese = row['Obesity'],
                 hearattack = row['Heart diseases'],
             )
-
 
 
 class ParticipantListView(ListView):
