@@ -1,3 +1,4 @@
+from bokeh.models import HoverTool
 from bokeh.plotting import *
 from bokeh.embed import components
 import pandas as pd
@@ -11,6 +12,8 @@ def genderbarchart():
     p = figure(x_range=labels, plot_height=400, plot_width=700, title="study age and gender distribution")
     p.vbar(x=labels, top=[3,1,1,3,2], width=0.6)
     p.vbar(x=labels, top=[1, 1, 3, 0, 0], width=0.6,color="pink")
+    p.add_tools(HoverTool(tooltips=[("Male", "12"), ("Female", "19")]))
+    p.legend.location = "top_left"
     script, div = components(p)
     return script, div
 
@@ -28,6 +31,11 @@ def searchCol(col):
     dfH = df[[col]]
     p = figure(x_range=labels, plot_height=400, plot_width=700, title=col)
     p.vbar(x=dfH[col], top=returnTop(col), width=0.4)
+    p.add_tools(HoverTool(tooltips=[("Yes", str(returnTop(col)[0])),
+                                    ("No", str(returnTop(col)[1])),
+                                    ("No idea", str(returnTop(col)[2])),
+                                    ("Total", str(sum(returnTop(col))))
+                                    ]))
     script, div = components(p)
     return script, div
 

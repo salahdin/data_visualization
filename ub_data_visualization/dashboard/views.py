@@ -10,6 +10,7 @@ import csv
 from .models import *
 from django.views.generic import ListView
 
+
 def homepage(request):
     script, div = genderbarchart()
     return render_to_response('base.html', {'script': script, 'div': div})
