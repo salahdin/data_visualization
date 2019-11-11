@@ -30,7 +30,8 @@ def searchCol(col):
     labels = ['Yes', 'No', 'No Idea']
     dfH = df[[col]]
     p = figure(x_range=labels, plot_height=400, plot_width=700, title=col)
-    p.vbar(x=dfH[col], top=returnTop(col), width=0.4)
+    p.vbar(x=labels, top=returnTop(col), width=0.4)
+    print(returnTop(col))
     p.add_tools(HoverTool(tooltips=[("Yes", str(returnTop(col)[0])),
                                     ("No", str(returnTop(col)[1])),
                                     ("No idea", str(returnTop(col)[2])),
